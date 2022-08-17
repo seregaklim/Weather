@@ -20,7 +20,7 @@ import com.seregaklim.weather.databinding.FragmentMainBinding
 import com.seregaklim.weather.dto.WeatherModel
 import com.seregaklim.weather.viewModel.MainViewModel
 import org.json.JSONObject
-
+import com.squareup.picasso.Picasso
 
 //https://www.weatherapi.com/
 const val API_KEY = " ab646ffb27fa4bc6807212908222707 "
@@ -38,7 +38,7 @@ class MainFragment : Fragment(){
     //разрешение пользователя на использование местоположения
     private lateinit var pLauncher: ActivityResultLauncher<String>
     private lateinit var binding: FragmentMainBinding
-    private lateinit var model: MainViewModel 
+    private lateinit var model: MainViewModel
 
 
     override fun onCreateView(
@@ -53,7 +53,8 @@ class MainFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
         init()
-        getWeather("Moscow")
+        updateCurrenCard()
+        getWeather("Berlin")
     }
     private fun init() = with(binding){
         val adapter = VpAdapter(activity as FragmentActivity, fList)
@@ -63,6 +64,21 @@ class MainFragment : Fragment(){
         }.attach()
 
     }
+    //получаем
+    private fun updateCurrenCard()= with(binding){
+        model.liveDataCurrent.observe(viewLifecycleOwner){
+
+          val maxMinTemp = "${it.maxTemp}С°/${it.minTemp}С°"
+            tvData.text=it.time
+            tvCity.text=it.city
+            tvCurrentTemp.text=it.currentTemp
+            //погодные условия
+            tvCondition.text=it.condition
+            tvMaxMin.text = maxMinTemp
+            Picasso.get().load("https"+it.imageUrl).into(imWeather)
+        }
+    }
+
     //разршение на предоставление местоположения
     private fun permissionListener(){
         pLauncher = registerForActivityResult(
@@ -134,6 +150,11 @@ class MainFragment : Fragment(){
                 .getJSONObject("condition").getString("icon"),
             weatherItem.hours
         )
+
+        //передаем
+        model.liveDataCurrent.value=item
+
+
 ///логи jsona (тест)
         Log.d("MyLog", "City: ${item.maxTemp}")
         Log.d("MyLog", "Time: ${item.minTemp}")
