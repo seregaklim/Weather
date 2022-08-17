@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.seregaklim.weather.R
+import com.seregaklim.weather.viewModel.MainViewModel
 
 
 class DaysFragment : Fragment() {

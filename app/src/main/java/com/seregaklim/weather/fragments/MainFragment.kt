@@ -21,9 +21,10 @@ import com.seregaklim.weather.dto.WeatherModel
 import com.seregaklim.weather.viewModel.MainViewModel
 import org.json.JSONObject
 import com.squareup.picasso.Picasso
+import androidx.fragment.app.activityViewModels
 
 //https://www.weatherapi.com/
-const val API_KEY = " ab646ffb27fa4bc6807212908222707 "
+const val API_KEY = "c259463eb91640dab4d213348221708"
 
 class MainFragment : Fragment(){
 
@@ -38,7 +39,8 @@ class MainFragment : Fragment(){
     //разрешение пользователя на использование местоположения
     private lateinit var pLauncher: ActivityResultLauncher<String>
     private lateinit var binding: FragmentMainBinding
-    private lateinit var model: MainViewModel
+
+ private  val model :MainViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -53,8 +55,9 @@ class MainFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
         init()
-        updateCurrenCard()
-        getWeather("Berlin")
+     updateCurrenCard()
+        getWeather("Moscow")
+
     }
     private fun init() = with(binding){
         val adapter = VpAdapter(activity as FragmentActivity, fList)
@@ -75,7 +78,7 @@ class MainFragment : Fragment(){
             //погодные условия
             tvCondition.text=it.condition
             tvMaxMin.text = maxMinTemp
-            Picasso.get().load("https"+it.imageUrl).into(imWeather)
+            Picasso.get().load("https:"+it.imageUrl).into(imWeather)
         }
     }
 
@@ -94,10 +97,10 @@ class MainFragment : Fragment(){
             pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
-    //    http://api.weatherapi.com/v1/current.json?key=ab646ffb27fa4bc6807212908222707&q=Moscow&aqi=no
+
     //запрос погоды
     private fun getWeather(city: String) {
-
+//https://api.weatherapi.com/v1/forecast.json?key=c259463eb91640dab4d213348221708&q=London&days=3&aqi=no&alerts=no
         val url = "https://api.weatherapi.com/v1/forecast.json?key=" +
                 API_KEY +
                 "&q=" +
@@ -109,13 +112,13 @@ class MainFragment : Fragment(){
         // новая очередь запроса с библиотекой Volley
         val queue = Volley.newRequestQueue(context)
 
-        val stringRequest = StringRequest(
+        val request = StringRequest(
             Request.Method.GET,
             url,
             {
                     result -> parseWeatherData(result)
 
-                //                val obj = JSONObject(result)
+//                                val obj = JSONObject(result)
 //                val temp = obj.getJSONObject("current")
 //                Log.d("MyLog","Result: $result")
             },
@@ -124,7 +127,7 @@ class MainFragment : Fragment(){
                 Log.d("MyLog","Volley error: $error")
             }
         )
-        queue.add(stringRequest)
+        queue.add(request)
 
     }
 
@@ -152,7 +155,7 @@ class MainFragment : Fragment(){
         )
 
         //передаем
-        model.liveDataCurrent.value=item
+    model.liveDataCurrent.value=item
 
 
 ///логи jsona (тест)

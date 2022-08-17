@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.seregaklim.weather.R
 import com.seregaklim.weather.databinding.ListItemBinding
 import com.seregaklim.weather.dto.WeatherModel
+import com.squareup.picasso.Picasso
 
 class WeatherAdapter : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparator()) {
 
@@ -19,6 +20,7 @@ class WeatherAdapter : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparat
             tvDate.text = item.time
             tvCondition.text = item.condition
             tvTemp.text = item.currentTemp
+            Picasso.get().load("https:"+item.imageUrl).into(im)
         }
     }
 

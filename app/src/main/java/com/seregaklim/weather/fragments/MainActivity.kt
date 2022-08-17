@@ -4,8 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.seregaklim.weather.R
 import com.seregaklim.weather.fragments.HoursFragment.Companion.newInstance
+import com.seregaklim.weather.viewModel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -16,4 +20,5 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.placeHolder, MainFragment.newInstance())
             .commit()
     }
+
 }

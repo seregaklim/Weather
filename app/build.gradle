@@ -46,6 +46,8 @@ dependencies {
     //библиотека, которая делает сетевые приложения для Android проще и быстрее.
     // Она управляет обработкой и кэшированием сетевых запросов,
     implementation 'com.android.volley:volley:1.2.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.2'
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
