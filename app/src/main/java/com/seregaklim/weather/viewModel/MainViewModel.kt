@@ -6,6 +6,8 @@ import com.seregaklim.weather.dto.WeatherModel
 
 
 class MainViewModel : ViewModel(){
+    // по часам
     val liveDataCurrent = MutableLiveData <WeatherModel>()
+    //по дням
     val liveDataList = MutableLiveData<List <WeatherModel>>()
 }

@@ -154,14 +154,14 @@ class MainFragment : Fragment(){
             weatherItem.hours
         )
 
-        //передаем
+        //передаем в model
     model.liveDataCurrent.value=item
 
 
 ///логи jsona (тест)
-        Log.d("MyLog", "City: ${item.maxTemp}")
-        Log.d("MyLog", "Time: ${item.minTemp}")
-        Log.d("MyLog", "Time: ${item.hours}")
+//        Log.d("MyLog", "City: ${item.maxTemp}")
+//        Log.d("MyLog", "Time: ${item.minTemp}")
+//        Log.d("MyLog", "Time: ${item.hours}")
     }
 
 
@@ -196,6 +196,8 @@ class MainFragment : Fragment(){
             )
             list.add(item)
         }
+        //передаем в model
+        model.liveDataList.value=list
         return list
     }
 
