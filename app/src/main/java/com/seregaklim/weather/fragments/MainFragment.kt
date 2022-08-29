@@ -71,13 +71,16 @@ class MainFragment : Fragment(){
     private fun updateCurrenCard()= with(binding){
         model.liveDataCurrent.observe(viewLifecycleOwner){
 
-          val maxMinTemp = "${it.maxTemp}С°/${it.minTemp}С°"
+          val maxMinTemp = "${it.maxTemp}°С/${it.minTemp}°С"
             tvData.text=it.time
             tvCity.text=it.city
-            tvCurrentTemp.text=it.currentTemp
+           //теспература в настоящий момент  (делаем проверку когда выбираем другую дату),
+            //если пусто значит показывааем maxMinTemp
+            tvCurrentTemp.text=it.currentTemp.ifEmpty {maxMinTemp}
             //погодные условия
             tvCondition.text=it.condition
-            tvMaxMin.text = maxMinTemp
+           //если мин. пусто , тогда ничего не показываем иначе мах
+            tvMaxMin.text = if (it.currentTemp.isEmpty()) "" else maxMinTemp
             Picasso.get().load("https:"+it.imageUrl).into(imWeather)
         }
     }
@@ -185,9 +188,10 @@ class MainFragment : Fragment(){
                 day.getJSONObject("day").getJSONObject("condition")
                     .getString("text"),
                 "",
-                day.getJSONObject("day").getString("maxtemp_c"),
+               //округляем до целого числа
+                day.getJSONObject("day").getString("maxtemp_c").toFloat().toInt().toString(),
 
-                day.getJSONObject("day").getString("mintemp_c"),
+                day.getJSONObject("day").getString("mintemp_c").toFloat().toInt().toString(),
 
                 day.getJSONObject("day").getJSONObject("condition")
                     .getString("icon"),
